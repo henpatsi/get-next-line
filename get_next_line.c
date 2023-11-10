@@ -17,7 +17,7 @@
 char	*get_next_line(int fd)
 {
 	static char*	last_read;
-	//static size_t	last_index;
+	static size_t	last_index;
 	ssize_t			last_size;
 
 	char*			current_buf;
@@ -35,8 +35,8 @@ char	*get_next_line(int fd)
 	}
 	else
 	{
-		current_buf = dup_buf(last_read, 0, BUFFER_SIZE - 1);
-		current_size = BUFFER_SIZE;
+		current_buf = dup_buf(last_read, last_index, BUFFER_SIZE);
+		current_size = BUFFER_SIZE - last_index;
 	}
 
 	while (nl_index == -1 && last_size == BUFFER_SIZE)
@@ -44,23 +44,16 @@ char	*get_next_line(int fd)
 		last_size = read(fd, last_read, BUFFER_SIZE);
 		if (last_size == -1)
 			return (0);
-
-		printf("\nlast_read = %s\n", last_read);
-
 		current_buf = add_buf(current_buf, last_read, current_size, BUFFER_SIZE);
-		current_size += BUFFER_SIZE;
+		current_size += last_size;
 
-		printf("current_buf = ");
-		fflush(stdout);
-		write(1, current_buf, current_size);
-		printf("\ncurrent_size = %zu\n", current_size);
-
-		nl_index = get_nl_index(current_buf, current_size, 0);
-
-		printf("nl_index = %zd\n", nl_index);
+		nl_index = get_nl_index(current_buf, current_size, last_index);
 	}
 	
-	return (dup_buf(current_buf, 0, nl_index - 1));
+	last_index = nl_index + 1 - current_size + BUFFER_SIZE;
 
-	return (0);
+	if (last_size == BUFFER_SIZE)
+		return (dup_buf(current_buf, 0, nl_index - 1));
+	else
+		return (dup_buf(current_buf, 0, current_size));
 }

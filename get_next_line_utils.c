@@ -31,11 +31,12 @@ char	*dup_buf(char *s, size_t start, size_t end)
 	dup = malloc(end + 1 - start);
 	if (dup == 0)
 		return (0);
-	i = start;
-	while (i < end)
+	i = 0;
+	while (start < end)
 	{
-		dup[i] = s[i];
+		dup[i] = s[start];
 		i++;
+		start++;
 	}
 	return (dup);
 }

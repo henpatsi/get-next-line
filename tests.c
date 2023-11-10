@@ -32,8 +32,17 @@ int	main(void)
 	read_str = get_next_line(fd);
 	printf("\nread str = \"%s\"\n", read_str);
 
-	//read_str = get_next_line(fd);
-	//printf("read str = \"%s\"\n", read_str);
+	read_str = get_next_line(fd);
+	printf("\nread str = \"%s\"\n", read_str);
+
+	read_str = get_next_line(fd);
+	printf("\nread str = \"%s\"\n", read_str);
+
+	read_str = get_next_line(fd);
+	printf("\nread str = \"%s\"\n", read_str);
+
+	read_str = get_next_line(fd);
+	printf("\nread str = \"%s\"\n", read_str);
 
 	close(fd);
 }
