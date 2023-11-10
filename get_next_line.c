@@ -16,23 +16,51 @@
 
 char	*get_next_line(int fd)
 {
-	static char*	str_read;
-	static ssize_t	start_index;
+	static char*	last_read;
+	//static size_t	last_index;
+	ssize_t			last_size;
 
-	char*			total_read;
-	ssize_t			total_size;
-	
-	total_read = str_read;
-	total_size = 0;
-	while(get_nl_index(total_read, total_size, start_index) == 0)
+	char*			current_buf;
+	size_t			current_size;
+
+	ssize_t	nl_index;
+	nl_index = -1;
+	last_size = BUFFER_SIZE;
+
+	if (last_read == 0)
 	{
-		str_read = malloc(BUFFER_SIZE);
-		if (read(fd, str_read, BUFFER_SIZE) < BUFFER_SIZE)
-			return (0);
-		total_read = memjoin(total_read, str_read, total_size, BUFFER_SIZE);
-		total_size += BUFFER_SIZE;
-
-		printf("total_read = %s\ntotal_size = %zd\nstart_index = %zd\n\n", total_read, total_size, start_index);
+		last_read = malloc(BUFFER_SIZE);
+		current_buf = 0;
+		current_size = 0;
 	}
-	return (memdup(total_read, start_index, get_nl_index(total_read, total_size, start_index)));
+	else
+	{
+		current_buf = dup_buf(last_read, 0, BUFFER_SIZE - 1);
+		current_size = BUFFER_SIZE;
+	}
+
+	while (nl_index == -1 && last_size == BUFFER_SIZE)
+	{
+		last_size = read(fd, last_read, BUFFER_SIZE);
+		if (last_size == -1)
+			return (0);
+
+		printf("\nlast_read = %s\n", last_read);
+
+		current_buf = add_buf(current_buf, last_read, current_size, BUFFER_SIZE);
+		current_size += BUFFER_SIZE;
+
+		printf("current_buf = ");
+		fflush(stdout);
+		write(1, current_buf, current_size);
+		printf("\ncurrent_size = %zu\n", current_size);
+
+		nl_index = get_nl_index(current_buf, current_size, 0);
+
+		printf("nl_index = %zd\n", nl_index);
+	}
+	
+	return (dup_buf(current_buf, 0, nl_index - 1));
+
+	return (0);
 }

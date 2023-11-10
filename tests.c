@@ -17,30 +17,23 @@
 
 #include "get_next_line.h"
 
-void	test_helpers(void)
-{
-	
-}
-
 int	main(void)
 {
-	test_helpers();
-
 	int		fd;
 	char	*read_str; 
 
 	fd = open("./test_files/ez.txt", O_RDONLY);
 	if (fd == -1)
 	{
-		printf("error reading file\n");
+		printf("error opening file\n");
 		return (1);
 	}
 
 	read_str = get_next_line(fd);
-	printf("read str = \"%s\"\n", read_str);
+	printf("\nread str = \"%s\"\n", read_str);
 
-	// read_str = get_next_line(fd);
-	// printf("read str = \"%s\"\n", read_str);
+	//read_str = get_next_line(fd);
+	//printf("read str = \"%s\"\n", read_str);
 
 	close(fd);
 }

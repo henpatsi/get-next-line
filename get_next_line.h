@@ -19,8 +19,9 @@
 # include <stdlib.h>
 
 char	*get_next_line(int fd);
-int		get_nl_index(char *s, ssize_t size, ssize_t i);
-char	*memdup(char *org, ssize_t start, ssize_t end);
-char	*memjoin(char *s1, char *s2, ssize_t size1, ssize_t size2);
+
+ssize_t	get_nl_index(char *s, size_t size, size_t i);
+char	*dup_buf(char *s, size_t start, size_t end);
+char	*add_buf(char *s1, char *s2, size_t size1, size_t size2);
 
 #endif

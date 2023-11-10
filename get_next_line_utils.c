@@ -12,59 +12,52 @@
 
 #include "get_next_line.h"
 
-char	*memdup(char *org, ssize_t start, ssize_t end)
+ssize_t	get_nl_index(char *s, size_t size, size_t i)
 {
-	char	*dup;
-	ssize_t	i;
-
-	if (org == 0)
-		return (0);
-	if (start >= end)
-		return (0);
-	dup = malloc(end + 1 - start + 1);
-	if (dup == 0)
-		return (0);
-	i = start;
-	while (i <= end)
-	{
-		dup[i] = org[i];
-		i++;
-	}
-	return (dup);
-}
-
-char *memjoin(char *s1, char *s2, ssize_t size1, ssize_t size2)
-{
-	char	*new;
-	ssize_t	i;
-	ssize_t	j;
-
-	new = malloc(size1 + size2 + 1);
-	if (new == 0)
-		return (0);
-	i = 0;
-	while (i < size1)
-	{
-		new[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (j < size1)
-	{
-		new[i + j] = s2[j];
-		j++;
-	}
-	free(s2);
-	return (new);
-}
-
-int	get_nl_index(char *s, ssize_t size, ssize_t i)
-{
-	while (i < size && s[i] != -1)
+	while (i < size)
 	{
 		if (s[i] == '\n')
 			return (i);
 		i++;
 	}
-	return (0);
+	return (-1);
+}
+
+char	*dup_buf(char *s, size_t start, size_t end)
+{
+	char	*dup;
+	size_t	i;
+
+	dup = malloc(end + 1 - start);
+	if (dup == 0)
+		return (0);
+	i = start;
+	while (i < end)
+	{
+		dup[i] = s[i];
+		i++;
+	}
+	return (dup);
+}
+
+char	*add_buf(char *s1, char *s2, size_t size1, size_t size2)
+{
+	size_t	i;
+	size_t	j;
+	char	*new;
+
+	new = malloc(size1 + size2);
+	i = 0;
+	while(i < size1)
+	{
+		new[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while(j < size2)
+	{
+		new[i + j] = s2[j];
+		j++;
+	}
+	return (new);
 }
