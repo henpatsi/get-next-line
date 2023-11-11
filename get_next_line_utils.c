@@ -12,9 +12,6 @@
 
 #include "get_next_line.h"
 
-
-#include <stdio.h>
-
 size_t	ft_strlen(const char *s)
 {
 	size_t	i;
@@ -100,5 +97,6 @@ char	*ft_stradd(char *s1, char *s2)
 		j++;
 	}
 	new[i + j] = 0;
+	free(s1);
 	return (new);
 }
