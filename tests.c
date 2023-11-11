@@ -17,49 +17,46 @@
 
 #include "get_next_line.h"
 
-// void	print_line(char *str)
-// {
-// 	if (str == 0)
-// 	{
-// 		write(1, "(null)", 6);
-// 	}
-// 	while (*str != 0)
-// 	{
-// 		write(1, str, 1);
-// 		str++;
-// 	}
-// 	write(1, "\n\n", 2);
-// }
+void	print_line(char *str)
+{
+	if (str == 0)
+	{
+		write(1, "(null)", 6);
+	}
+	while (*str != '\n' && *str != 0)
+	{
+		write(1, str, 1);
+		str++;
+	}
+	write(1, "\n", 2);
+}
 
-void	test_easy(int fd)
+void	test_file(char *file)
 {
 	char	*read_line;
-	int	i;
+	int		fd;
 
-	i = 5;
-	while (i > 0)
+	printf("\n");
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
 	{
-		read_line = get_next_line(fd);
-		printf("read str = %s\n", read_line);
-		free(read_line);
-		i--;
+		printf("error opening file: \"%s\"\n", file);
+		return ;
 	}
+	read_line = get_next_line(fd);
+	while (read_line != 0)
+	{
+		print_line(read_line);
+		free(read_line);
+		read_line = get_next_line(fd);
+	}
+	free(read_line);
+	close(fd);
+	printf("\n");
 }
 
 int	main(void)
 {
-	int		fd;
-
-	fd = open("./test_files/ez.txt", O_RDONLY);
-	if (fd == -1)
-	{
-		printf("error opening file\n");
-		return (1);
-	}
-
-	printf("\n");
-	test_easy(fd);
-	printf("\n");
-
-	close(fd);
+	test_file("./test_files/ez.txt");
+	test_file("./test_files/longline.txt");
 }

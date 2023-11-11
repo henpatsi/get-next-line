@@ -10,6 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+
+
+
+//TODO ADD CHECKS FOR ALL MALLOCS
+
+
+
 #include "get_next_line.h"
 
 char	*cut_last_line(char *current_buf)
@@ -20,6 +27,11 @@ char	*cut_last_line(char *current_buf)
 	if (!current_buf)
 		return (malloc(0));
 	nl_i = ft_i_strchr(current_buf, '\n');
+	if (nl_i == -1)
+	{
+		free(current_buf);
+		return (0);
+	}
 	temp = ft_strldup(&current_buf[nl_i + 1], ft_strlen(current_buf) - nl_i);
 	free(current_buf);
 	return (temp);
@@ -27,13 +39,13 @@ char	*cut_last_line(char *current_buf)
 
 char	*get_next_line(int fd)
 {
-	//TODO ADD CHECKS FOR ALL MALLOCS
-	
 	static char		*current_buf;
 	char			*last_read;
 	ssize_t			last_size;
 
 	current_buf = cut_last_line(current_buf);
+	if (current_buf == 0)
+		return (0);
 	last_size = BUFFER_SIZE;
 	while (1)
 	{
