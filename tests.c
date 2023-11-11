@@ -87,13 +87,13 @@ int	main(void)
 
 	lines_left = test_file("./test_files/ez.txt", 5);
 	printf("%d lines left unread\n", lines_left);
+	lines_left = test_file("./test_files/letters.txt", 26);
+	printf("%d lines left unread\n", lines_left);
 	lines_left = test_file("./test_files/longline.txt", 3);
 	printf("%d lines left unread\n", lines_left);
 	lines_left = test_file("./test_files/notext.txt", 10);
 	printf("%d lines left unread\n", lines_left);
 	lines_left = test_file("./test_files/empty.txt", 1);
-	printf("%d lines left unread\n", lines_left);
-	lines_left = test_file("./test_files/letters.txt", 26);
 	printf("%d lines left unread\n", lines_left);
 
 	close(fd_out);
