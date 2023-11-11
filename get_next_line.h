@@ -19,7 +19,6 @@
 # include <stdlib.h>
 
 char	*get_next_line(int fd);
-
 ssize_t	ft_i_strchr(const char *s, int c);
 char	*ft_strldup(const char *s1, size_t len);
 char	*ft_stradd(char *s1, char *s2);

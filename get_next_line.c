@@ -19,13 +19,19 @@
 
 #include "get_next_line.h"
 
-char	*cut_last_line(char *current_buf)
+char	*trim_buffer(char *current_buf)
 {
 	char	*temp;
 	ssize_t	nl_i;
 
 	if (!current_buf)
-		return (malloc(0));
+	{
+		temp = malloc(1);
+		if (temp == 0)
+			return (0);
+		*temp = 0;
+		return (temp);
+	}
 	nl_i = ft_i_strchr(current_buf, '\n');
 	if (nl_i == -1)
 	{
@@ -43,16 +49,15 @@ char	*get_next_line(int fd)
 	char			*last_read;
 	ssize_t			last_size;
 
-	current_buf = cut_last_line(current_buf);
+	current_buf = trim_buffer(current_buf);
 	if (current_buf == 0)
 		return (0);
-	last_size = BUFFER_SIZE;
 	while (1)
 	{
 		last_read = malloc(BUFFER_SIZE + 1);
-		ft_bzero(last_read, BUFFER_SIZE + 1);
 		if (last_read == 0)
 			return (0);
+		ft_bzero(last_read, BUFFER_SIZE + 1);
 		last_size = read(fd, last_read, BUFFER_SIZE);
 		if (last_size == -1)
 			return (0);
