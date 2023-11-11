@@ -20,8 +20,10 @@
 
 char	*get_next_line(int fd);
 
-ssize_t	get_nl_index(char *s, size_t size, size_t i);
-char	*dup_buf(char *s, size_t start, size_t end);
-char	*add_buf(char *s1, char *s2, size_t size1, size_t size2);
+ssize_t	ft_i_strchr(const char *s, int c);
+char	*ft_strldup(const char *s1, size_t len);
+char	*ft_stradd(char *s1, char *s2);
+size_t	ft_strlen(const char *s);
+void	ft_bzero(char *s, size_t len);
 
 #endif

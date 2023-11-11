@@ -12,53 +12,93 @@
 
 #include "get_next_line.h"
 
-ssize_t	get_nl_index(char *s, size_t size, size_t i)
+
+#include <stdio.h>
+
+size_t	ft_strlen(const char *s)
 {
-	while (i < size)
+	size_t	i;
+
+	i = 0;
+	while (s[i] != 0)
 	{
-		if (s[i] == '\n')
-			return (i);
 		i++;
 	}
+	return (i);
+}
+
+void	ft_bzero(char *s, size_t len)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < len)
+	{
+		s[i] = 0;
+		i++;
+	}
+}
+
+ssize_t	ft_i_strchr(const char *s, int c)
+{
+	char	cc;
+	size_t	i;
+
+	cc = (char) c;
+	i = 0;
+	while (s[i] != 0)
+	{
+		if (s[i] == cc)
+		{
+			return (i);
+		}
+		i++;
+	}
+	if (cc == 0)
+		return (i);
 	return (-1);
 }
 
-char	*dup_buf(char *s, size_t start, size_t end)
+char	*ft_strldup(const char *s1, size_t len)
 {
 	char	*dup;
 	size_t	i;
 
-	dup = malloc(end + 1 - start);
+	dup = malloc((len + 1));
 	if (dup == 0)
 		return (0);
 	i = 0;
-	while (start < end)
+	while (i <= len)
 	{
-		dup[i] = s[start];
+		dup[i] = s1[i];
 		i++;
-		start++;
 	}
 	return (dup);
 }
 
-char	*add_buf(char *s1, char *s2, size_t size1, size_t size2)
+char	*ft_stradd(char *s1, char *s2)
 {
+	char	*new;
 	size_t	i;
 	size_t	j;
-	char	*new;
 
-	new = malloc(size1 + size2);
+	if (s1 == 0 || s2 == 0)
+		return (0);
+	new = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (new == 0)
+		return (0);
 	i = 0;
-	while(i < size1)
+	while (s1[i] != 0)
 	{
 		new[i] = s1[i];
 		i++;
 	}
 	j = 0;
-	while(j < size2)
+	while (s2[j] != 0)
 	{
 		new[i + j] = s2[j];
 		j++;
 	}
+	new[i + j] = 0;
 	return (new);
 }

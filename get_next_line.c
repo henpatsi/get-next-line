@@ -14,46 +14,45 @@
 
 #include <stdio.h>
 
+char	*cut_last_line(char *current_buf)
+{
+	char	*temp;
+	ssize_t	nl_i;
+
+	nl_i = ft_i_strchr(current_buf, '\n');
+	temp = ft_strldup(&current_buf[nl_i + 1], ft_strlen(current_buf) - nl_i);
+	free(current_buf);
+	return (temp);
+}
+
 char	*get_next_line(int fd)
 {
-	static char*	last_read;
-	static size_t	last_index;
+	static char		*current_buf;
+	char			*last_read;
 	ssize_t			last_size;
 
-	char*			current_buf;
-	size_t			current_size;
-
-	ssize_t	nl_index;
-	nl_index = -1;
-	last_size = BUFFER_SIZE;
-
-	if (last_read == 0)
-	{
-		last_read = malloc(BUFFER_SIZE);
-		current_buf = 0;
-		current_size = 0;
-	}
+	if (current_buf)
+		current_buf = cut_last_line(current_buf);
 	else
-	{
-		current_buf = dup_buf(last_read, last_index, BUFFER_SIZE);
-		current_size = BUFFER_SIZE - last_index;
-	}
+		current_buf = malloc(0);
 
-	while (nl_index == -1 && last_size == BUFFER_SIZE)
+	last_read = malloc(BUFFER_SIZE + 1);
+	ft_bzero(last_read, BUFFER_SIZE + 1);
+	if (last_read == 0)
+		return 0;
+
+	last_size = BUFFER_SIZE;
+	while (1)
 	{
 		last_size = read(fd, last_read, BUFFER_SIZE);
 		if (last_size == -1)
 			return (0);
-		current_buf = add_buf(current_buf, last_read, current_size, BUFFER_SIZE);
-		current_size += last_size;
-
-		nl_index = get_nl_index(current_buf, current_size, last_index);
+		current_buf = ft_stradd(current_buf, last_read);
+		if (ft_i_strchr(current_buf, '\n') != -1)
+			return (ft_strldup(current_buf, ft_i_strchr(current_buf, '\n')));
+		if (last_size != BUFFER_SIZE)
+			return (ft_strldup(current_buf, ft_strlen(current_buf)));
 	}
-	
-	last_index = nl_index + 1 - current_size + BUFFER_SIZE;
 
-	if (last_size == BUFFER_SIZE)
-		return (dup_buf(current_buf, 0, nl_index - 1));
-	else
-		return (dup_buf(current_buf, 0, current_size));
+	return (0);
 }
