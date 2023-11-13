@@ -10,6 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+
+
+
+#include <stdio.h>
+
 #include "get_next_line.h"
 
 size_t	ft_strlen(const char *s)
@@ -71,7 +76,7 @@ char	*ft_strldup(const char *s1, size_t len)
 	return (dup);
 }
 
-char	*ft_strcombine(char *s1, char *s2)
+char	*ft_stradd(char *s1, char *s2)
 {
 	char	*new;
 	size_t	i;
@@ -97,6 +102,5 @@ char	*ft_strcombine(char *s1, char *s2)
 		new[i + j] = 0;
 	}
 	free(s1);
-	free(s2);
 	return (new);
 }

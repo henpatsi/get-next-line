@@ -14,75 +14,68 @@
 
 #include <stdio.h>
 
-static char	*initialize_buffer(void)
+int	trim_last_line(char *last_read)
 {
-	char	*temp;
-
-	temp = malloc(BUFFER_SIZE + 1);
-	if (temp == 0)
-		return (0);
-	ft_bzero(temp, BUFFER_SIZE + 1);
-	return (temp);
-}
-
-static char	*trim_buffer(char *current_buf)
-{
-	char	*temp;
 	ssize_t	nl_i;
+	size_t	i;
 
-	if (current_buf == 0)
+	if (last_read[0] == 0)
 	{
-		// printf("-buffer is 0-\n");
-		return (initialize_buffer());
+		ft_bzero(last_read, BUFFER_SIZE + 1);
+		return (1);
 	}
-	nl_i = ft_i_strchr(current_buf, '\n');
+	nl_i = ft_i_strchr(last_read, '\n');
 	if (nl_i == -1)
-	{
-		free(current_buf);
 		return (0);
+	i = 0;
+	while (last_read[nl_i + i] != 0)
+	{
+		last_read[i] = last_read[nl_i + i];
+		i++;
 	}
-	temp = ft_strldup(&current_buf[nl_i + 1], ft_strlen(current_buf) - nl_i);
-	free(current_buf);
-	return (temp);
+	last_read[i] = 0;
+	return (1);
 }
+
+// static char	*handle_shortline(char **current_buf_ptr)
+// {
+// 	if (ft_strlen(*current_buf_ptr) == 0)
+// 	{
+// 		free(*current_buf_ptr);
+// 		*current_buf_ptr = 0;
+// 		return (0);
+// 	}
+// 	return (ft_strldup(*current_buf_ptr, ft_strlen(*current_buf_ptr)));
+// }
 
 char	*get_next_line(int fd)
 {
-	static char		*current_buf;
-	char			last_read;
-	ssize_t			last_size;
+	static char	last_read[BUFFER_SIZE + 1];
+	ssize_t		last_size;
+	char		*current_buf;
 
-	// printf("gnl\n");
-	current_buf = trim_buffer(current_buf);
-	if (current_buf == 0)
-	{
-		// printf("---buffer 0---\n");
-		// fflush(stdout);
+	if (trim_last_line(last_read) == 0)
 		return (0);
-	}
-	last_size = BUFFER_SIZE;
-	while (last_size == BUFFER_SIZE)
-	{
-		last_read = malloc(BUFFER_SIZE + 1);
-		if (last_read == 0)
-			return (0);
-		ft_bzero(last_read, BUFFER_SIZE + 1);
-		last_size = read(fd, last_read, BUFFER_SIZE);
-		if (last_size == -1)
-			return (0);
-		current_buf = ft_strcombine(current_buf, last_read);
-		if (current_buf == 0)
-			return (0);
-		if (ft_i_strchr(current_buf, '\n') != -1)
-			return (ft_strldup(current_buf, ft_i_strchr(current_buf, '\n')));
-	}
-	if (ft_strlen(current_buf) == 0)
-	{
-		free(current_buf);
-		current_buf = 0;
-		// printf("---buffer set to 0---\n");
-		// fflush(stdout);
+	current_buf = ft_strldup(last_read, ft_strlen(last_read));
+	
+	last_size = read(fd, last_read, BUFFER_SIZE);
+	if (last_size == -1)
 		return (0);
-	}
-	return (ft_strldup(current_buf, ft_strlen(current_buf)));
+
+	// last_size = BUFFER_SIZE;
+	// while (last_size == BUFFER_SIZE)
+	// {
+	// 	ft_bzero(last_read, BUFFER_SIZE + 1);
+	// 	last_size = read(fd, last_read, BUFFER_SIZE);
+	// 	if (last_size == -1)
+	// 		return (0);
+	// 	current_buf = ft_stradd(current_buf, last_read);
+	// 	if (current_buf == 0)
+	// 		return (0);
+	// 	if (ft_i_strchr(current_buf, '\n') != -1)
+	// 		return (ft_strldup(current_buf, ft_i_strchr(current_buf, '\n')));
+	// }
+	// return (handle_shortline(&current_buf));
+	
+	return (ft_strldup(current_buf, ft_i_strchr(current_buf, '\n')));
 }

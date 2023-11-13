@@ -23,7 +23,7 @@ void	print_line(char *str)
 {
 	write(1, "line: ", 6);
 	if (str == 0)
-		write(1, "(null)", 7);
+		write(1, "(null)", 6);
 	else
 	{
 		while (*str != '\n' && *str != 0)
@@ -36,7 +36,7 @@ void	print_line(char *str)
 		if (*str == 0)
 			write(1, "(EOF)", 5);
 	}
-	write(1, "\n", 2);
+	write(1, "\n", 1);
 }
 
 // void	write_to_file(char *str)
@@ -115,13 +115,20 @@ int	main(void)
 	// 	printf("error opening output file\n");
 	// read_whole_file("./test_files/bible.txt", 99809);
 	read_whole_file("./test_files/oneline", 1);
-	read_whole_file("./test_files/ez", 5);
-	read_whole_file("./test_files/letters", 26);
+	read_whole_file("./test_files/123", 3);
+	read_whole_file("./test_files/456", 3);
+	read_whole_file("./test_files/simple_lines", 5);
+	//read_whole_file("./test_files/letters", 26);
 	// read_whole_file("./test_files/longline", 3);
 	read_whole_file("./test_files/one_nl", 1);
 	read_whole_file("./test_files/ten_nl", 10);
 	read_whole_file("./test_files/empty", 0);
-	read_n_lines("./test_files/ez", 5, 2);
-	read_n_lines("./test_files/ez", 5, -2);
+	read_whole_file("./test_files/linelength42", 5);
+	read_whole_file("./test_files/linelength42_nl", 5);
+	read_whole_file("./test_files/multiple_line_no_nl", 5);
+
+	read_n_lines("./test_files/simple_lines", 5, 2);
+	//read_n_lines("./test_files/ez", 5, -2);
+	//read_whole_file("./test_files/123", 3);
 	close(g_fd_out);
 }
