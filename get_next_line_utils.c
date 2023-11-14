@@ -18,9 +18,7 @@ size_t	ft_strlen(const char *s)
 
 	i = 0;
 	while (s[i] != 0)
-	{
 		i++;
-	}
 	return (i);
 }
 
@@ -54,7 +52,7 @@ ssize_t	ft_i_strchr(const char *s, int c)
 	return (-1);
 }
 
-char	*ft_strldup_nul(const char *s1, size_t len)
+char	*ft_strldup(const char *s1, size_t len)
 {
 	char	*dup;
 	size_t	i;
@@ -63,7 +61,7 @@ char	*ft_strldup_nul(const char *s1, size_t len)
 	if (dup == 0)
 		return (0);
 	i = 0;
-	while (i <= len)
+	while (i < len)
 	{
 		dup[i] = s1[i];
 		i++;
