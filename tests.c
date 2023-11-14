@@ -18,6 +18,15 @@
 #include "get_next_line.h"
 
 int	g_fd_out;
+int	malloc_count;
+
+void	*unreliable_malloc(size_t size)
+{
+	malloc_count += 1;
+	if (malloc_count % 10 == 0)
+		return (0);
+	return (malloc(size));
+}
 
 void	print_line(char *str)
 {
@@ -111,33 +120,17 @@ int	main(void)
 	// if (g_fd_out == -1)
 	// 	printf("error opening output file\n");
 	// read_whole_file("./test_files/bible", 99809);
-	// read_whole_file("./test_files/oneline", 1);
-	// read_whole_file("./test_files/123", 3);
-	// read_whole_file("./test_files/456", 3);
-	// read_whole_file("./test_files/simple_lines", 4);
-	// read_whole_file("./test_files/letters", 26);
-	// // read_whole_file("./test_files/longline", 3);
-	// read_whole_file("./test_files/one_nl", 1);
-	// read_whole_file("./test_files/ten_nl", 10);
-	// read_whole_file("./test_files/empty", 0);
-	// read_whole_file("./test_files/linelength42", 5);
-	// read_whole_file("./test_files/linelength42_nl", 5);
-
-	read_whole_file("./test_files/gnlTester/41_no_nl", 0);
-	read_whole_file("./test_files/gnlTester/41_with_nl", 0);
-	read_whole_file("./test_files/gnlTester/42_no_nl", 0);
-	read_whole_file("./test_files/gnlTester/42_with_nl", 0);
-	read_whole_file("./test_files/gnlTester/43_no_nl", 0);
-	read_whole_file("./test_files/gnlTester/43_with_nl", 0);
-	read_whole_file("./test_files/gnlTester/alternate_line_nl_no_nl", 0);
-	read_whole_file("./test_files/gnlTester/alternate_line_nl_with_nl", 0);
-	//read_whole_file("./test_files/gnlTester/big_line_no_nl", 0);
-	//read_whole_file("./test_files/gnlTester/big_line_with_nl", 0);
-	read_whole_file("./test_files/gnlTester/empty", 0);
-	read_whole_file("./test_files/gnlTester/multiple_line_no_nl", 0);
-	read_whole_file("./test_files/gnlTester/multiple_line_with_nl", 0);
-	read_whole_file("./test_files/gnlTester/multiple_nlx5", 0);
-	read_whole_file("./test_files/gnlTester/nl", 0);
+	read_whole_file("./test_files/oneline", 1);
+	read_whole_file("./test_files/123", 3);
+	read_whole_file("./test_files/456", 3);
+	read_whole_file("./test_files/simple_lines", 4);
+	read_whole_file("./test_files/letters", 26);
+	read_whole_file("./test_files/longline", 3);
+	read_whole_file("./test_files/one_nl", 1);
+	read_whole_file("./test_files/ten_nl", 10);
+	read_whole_file("./test_files/empty", 0);
+	read_whole_file("./test_files/linelength42", 5);
+	read_whole_file("./test_files/linelength42_nl", 5);
 
 	// read_n_lines("./test_files/simple_lines", 4, 2);
 	//read_n_lines("./test_files/ez", 5, -2);
