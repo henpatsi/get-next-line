@@ -115,6 +115,42 @@ int	read_n_lines(char *file, int lines, int dif)
 	return (lines);
 }
 
+int	read_multiple_files(void)
+{
+	int	fd1;
+	int	fd2;
+	int	fd3;
+
+	char	*read_line;
+	int i;
+
+	fd1 = open("./test_files/123", O_RDONLY);
+	if (fd1 == -1)
+		printf("error opening file\n");
+	fd2 = open("./test_files/456nl", O_RDONLY);
+	if (fd2 == -1)
+		printf("error opening file\n");
+	fd3 = open("./test_files/simple_lines", O_RDONLY);
+	if (fd3 == -1)
+		printf("error opening file\n");
+	i = 0;
+	while (i < 5)
+	{
+		read_line = get_next_line(fd1);
+		print_line(read_line);
+		free(read_line);
+		read_line = get_next_line(fd2);
+		print_line(read_line);
+		free(read_line);
+		read_line = get_next_line(fd3);
+		print_line(read_line);
+		free(read_line);
+		i++;
+	}
+
+	return (0);
+}
+
 int	read_from_stdoutin(int fd)
 {
 	char	*read_line;
@@ -142,27 +178,32 @@ int	main(int argc, char **argv)
 		}
 		return (0);
 	}
+
 	// g_fd_out = open("test_files/output", O_WRONLY | O_APPEND | O_CREAT);
 	// if (g_fd_out == -1)
 	// 	printf("error opening output file\n");
+
 	// read_whole_file("./test_files/bible", 99809);
-	read_whole_file("./test_files/oneline", 1);
-	read_whole_file("./test_files/123", 3);
-	read_whole_file("./test_files/456nl", 3);
-	read_whole_file("./test_files/simple_lines", 4);
-	read_whole_file("./test_files/letters", 26);
-	read_whole_file("./test_files/everyother", 9);
-	read_whole_file("./test_files/longline", 3);
-	read_whole_file("./test_files/one_nl", 1);
-	read_whole_file("./test_files/ten_nl", 10);
-	read_whole_file("./test_files/empty", 0);
-	read_whole_file("./test_files/linelength42", 5);
-	read_whole_file("./test_files/linelength42_nl", 5);
+	
+	// read_whole_file("./test_files/oneline", 1);
+	// read_whole_file("./test_files/123", 3);
+	// read_whole_file("./test_files/456nl", 3);
+	// read_whole_file("./test_files/simple_lines", 4);
+	// read_whole_file("./test_files/letters", 26);
+	// read_whole_file("./test_files/everyother", 9);
+	// read_whole_file("./test_files/longline", 3);
+	// read_whole_file("./test_files/one_nl", 1);
+	// read_whole_file("./test_files/ten_nl", 10);
+	// read_whole_file("./test_files/empty", 0);
+	// read_whole_file("./test_files/linelength42", 5);
+	// read_whole_file("./test_files/linelength42_nl", 5);
 
 	// read_n_lines("./test_files/simple_lines", 4, 2);
 	//read_n_lines("./test_files/ez", 5, -2);
 	//read_whole_file("./test_files/123", 3);
 	// close(g_fd_out);
+
+	read_multiple_files();
 
 	return (0);
 }
