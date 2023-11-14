@@ -26,15 +26,14 @@ void	print_line(char *str)
 		write(1, "(null)", 6);
 	else
 	{
-		while (*str != '\n' && *str != 0)
+		while (*str != 0)
 		{
-			write(1, str, 1);
+			if (*str == '\n')
+				write(1, "\\n", 2);
+			else
+				write(1, str, 1);
 			str++;
 		}
-		if (*str == '\n')
-			write(1, "(\\n)", 4);
-		if (*str == 0)
-			write(1, "(EOF)", 5);
 	}
 	write(1, "\n", 1);
 }
@@ -65,17 +64,15 @@ int	read_whole_file(char *file, int lines)
 		printf("error opening file\n");
 	else
 	{
-		while (1)
+		read_line = (char *)&fd;
+		while (read_line != 0)
 		{
 			read_line = get_next_line(fd);
-			if (read_line == 0)
-				break ;
 			lines--;
 			print_line(read_line);
 			//write_to_file(read_line);
 			free(read_line);
 		}
-		free(read_line);
 		close(fd);
 	}
 	printf("\n");
@@ -113,22 +110,37 @@ int	main(void)
 	// g_fd_out = open("test_files/output", O_WRONLY | O_APPEND | O_CREAT);
 	// if (g_fd_out == -1)
 	// 	printf("error opening output file\n");
-	// read_whole_file("./test_files/bible.txt", 99809);
-	read_whole_file("./test_files/oneline", 1);
-	read_whole_file("./test_files/123", 3);
-	read_whole_file("./test_files/456", 3);
-	read_whole_file("./test_files/simple_lines", 5);
-	//read_whole_file("./test_files/letters", 26);
-	// read_whole_file("./test_files/longline", 3);
-	read_whole_file("./test_files/one_nl", 1);
-	read_whole_file("./test_files/ten_nl", 10);
-	read_whole_file("./test_files/empty", 0);
-	read_whole_file("./test_files/linelength42", 5);
-	read_whole_file("./test_files/linelength42_nl", 5);
-	read_whole_file("./test_files/multiple_line_no_nl", 5);
+	// read_whole_file("./test_files/bible", 99809);
+	// read_whole_file("./test_files/oneline", 1);
+	// read_whole_file("./test_files/123", 3);
+	// read_whole_file("./test_files/456", 3);
+	// read_whole_file("./test_files/simple_lines", 4);
+	// read_whole_file("./test_files/letters", 26);
+	// // read_whole_file("./test_files/longline", 3);
+	// read_whole_file("./test_files/one_nl", 1);
+	// read_whole_file("./test_files/ten_nl", 10);
+	// read_whole_file("./test_files/empty", 0);
+	// read_whole_file("./test_files/linelength42", 5);
+	// read_whole_file("./test_files/linelength42_nl", 5);
 
-	read_n_lines("./test_files/simple_lines", 5, 2);
+	read_whole_file("./test_files/gnlTester/41_no_nl", 0);
+	read_whole_file("./test_files/gnlTester/41_with_nl", 0);
+	read_whole_file("./test_files/gnlTester/42_no_nl", 0);
+	read_whole_file("./test_files/gnlTester/42_with_nl", 0);
+	read_whole_file("./test_files/gnlTester/43_no_nl", 0);
+	read_whole_file("./test_files/gnlTester/43_with_nl", 0);
+	read_whole_file("./test_files/gnlTester/alternate_line_nl_no_nl", 0);
+	read_whole_file("./test_files/gnlTester/alternate_line_nl_with_nl", 0);
+	//read_whole_file("./test_files/gnlTester/big_line_no_nl", 0);
+	//read_whole_file("./test_files/gnlTester/big_line_with_nl", 0);
+	read_whole_file("./test_files/gnlTester/empty", 0);
+	read_whole_file("./test_files/gnlTester/multiple_line_no_nl", 0);
+	read_whole_file("./test_files/gnlTester/multiple_line_with_nl", 0);
+	read_whole_file("./test_files/gnlTester/multiple_nlx5", 0);
+	read_whole_file("./test_files/gnlTester/nl", 0);
+
+	// read_n_lines("./test_files/simple_lines", 4, 2);
 	//read_n_lines("./test_files/ez", 5, -2);
 	//read_whole_file("./test_files/123", 3);
-	close(g_fd_out);
+	// close(g_fd_out);
 }

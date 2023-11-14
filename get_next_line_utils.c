@@ -54,12 +54,12 @@ ssize_t	ft_i_strchr(const char *s, int c)
 	return (-1);
 }
 
-char	*ft_strldup(const char *s1, size_t len)
+char	*ft_strldup_nul(const char *s1, size_t len)
 {
 	char	*dup;
 	size_t	i;
 
-	dup = malloc((len + 1));
+	dup = malloc(len + 1);
 	if (dup == 0)
 		return (0);
 	i = 0;
@@ -68,6 +68,7 @@ char	*ft_strldup(const char *s1, size_t len)
 		dup[i] = s1[i];
 		i++;
 	}
+	dup[i] = 0;
 	return (dup);
 }
 
