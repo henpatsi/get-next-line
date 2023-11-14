@@ -14,6 +14,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "get_next_line.h"
 
@@ -114,17 +115,43 @@ int	read_n_lines(char *file, int lines, int dif)
 	return (lines);
 }
 
-int	main(void)
+int	read_from_stdoutin(int fd)
 {
+	char	*read_line;
+	char	c;
+
+	c = 'a';
+	read_line = &c;
+	while (read_line != 0)
+	{
+		read_line = get_next_line(fd);
+		print_line(read_line);
+		free(read_line);
+	}
+	return (0);
+}
+
+int	main(int argc, char **argv)
+{
+	if (argc > 1)
+	{
+		if (strcmp(argv[1], "input") == 0)
+		{
+			printf("reading from stdin\n");
+			read_from_stdoutin(0);
+		}
+		return (0);
+	}
 	// g_fd_out = open("test_files/output", O_WRONLY | O_APPEND | O_CREAT);
 	// if (g_fd_out == -1)
 	// 	printf("error opening output file\n");
 	// read_whole_file("./test_files/bible", 99809);
 	read_whole_file("./test_files/oneline", 1);
 	read_whole_file("./test_files/123", 3);
-	read_whole_file("./test_files/456", 3);
+	read_whole_file("./test_files/456nl", 3);
 	read_whole_file("./test_files/simple_lines", 4);
 	read_whole_file("./test_files/letters", 26);
+	read_whole_file("./test_files/everyother", 9);
 	read_whole_file("./test_files/longline", 3);
 	read_whole_file("./test_files/one_nl", 1);
 	read_whole_file("./test_files/ten_nl", 10);
@@ -136,4 +163,6 @@ int	main(void)
 	//read_n_lines("./test_files/ez", 5, -2);
 	//read_whole_file("./test_files/123", 3);
 	// close(g_fd_out);
+
+	return (0);
 }
