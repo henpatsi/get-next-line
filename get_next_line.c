@@ -66,7 +66,7 @@ char	*get_next_line(int fd)
 	if (current_buf == 0)
 		return (0);
 	last_size = BUFFER_SIZE;
-	while (ft_i_strchr(current_buf, '\n') == -1)
+	while (ft_i_strchr(last_read, '\n') == -1)
 	{
 		if (last_size != BUFFER_SIZE)
 			return (handle_return(current_buf, 0, last_read));
