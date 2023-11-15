@@ -78,7 +78,8 @@ int	read_whole_file(char *file, int lines)
 		while (read_line != 0)
 		{
 			read_line = get_next_line(fd);
-			lines--;
+			if (read_line != 0)
+				lines--;
 			print_line(read_line);
 			//write_to_file(read_line);
 			free(read_line);
@@ -117,12 +118,11 @@ int	read_n_lines(char *file, int lines, int dif)
 
 int	read_multiple_files(void)
 {
-	int	fd1;
-	int	fd2;
-	int	fd3;
-
+	int		fd1;
+	int		fd2;
+	int		fd3;
 	char	*read_line;
-	int i;
+	int		i;
 
 	fd1 = open("./test_files/123", O_RDONLY);
 	if (fd1 == -1)
@@ -136,12 +136,16 @@ int	read_multiple_files(void)
 	i = 0;
 	while (i < 5)
 	{
+		printf("\n");
 		read_line = get_next_line(fd1);
+		printf("fd = %d\n", fd1);
 		print_line(read_line);
 		free(read_line);
+		printf("fd = %d\n", fd2);
 		read_line = get_next_line(fd2);
 		print_line(read_line);
 		free(read_line);
+		printf("fd = %d\n", fd3);
 		read_line = get_next_line(fd3);
 		print_line(read_line);
 		free(read_line);
@@ -183,26 +187,28 @@ int	main(int argc, char **argv)
 	// if (g_fd_out == -1)
 	// 	printf("error opening output file\n");
 
+	printf("\n\n --------- SINGLE FILE TESTS ---------\n");
 	// read_whole_file("./test_files/bible", 99809);
-	
-	// read_whole_file("./test_files/oneline", 1);
-	// read_whole_file("./test_files/123", 3);
-	// read_whole_file("./test_files/456nl", 3);
-	// read_whole_file("./test_files/simple_lines", 4);
-	// read_whole_file("./test_files/letters", 26);
-	// read_whole_file("./test_files/everyother", 9);
-	// read_whole_file("./test_files/longline", 3);
-	// read_whole_file("./test_files/one_nl", 1);
-	// read_whole_file("./test_files/ten_nl", 10);
-	// read_whole_file("./test_files/empty", 0);
-	// read_whole_file("./test_files/linelength42", 5);
-	// read_whole_file("./test_files/linelength42_nl", 5);
+	read_whole_file("./test_files/longline", 3);
+	read_whole_file("./test_files/oneline", 1);
+	read_whole_file("./test_files/123", 3);
+	read_whole_file("./test_files/456nl", 3);
+	read_whole_file("./test_files/simple_lines", 4);
+	read_whole_file("./test_files/letters", 26);
+	read_whole_file("./test_files/everyother", 9);
+	read_whole_file("./test_files/one_nl", 1);
+	read_whole_file("./test_files/ten_nl", 10);
+	read_whole_file("./test_files/empty", 0);
+	read_whole_file("./test_files/linelength41", 5);
+	read_whole_file("./test_files/linelength42", 5);
+	read_whole_file("./test_files/linelength43", 5);
 
 	// read_n_lines("./test_files/simple_lines", 4, 2);
 	//read_n_lines("./test_files/ez", 5, -2);
 	//read_whole_file("./test_files/123", 3);
 	// close(g_fd_out);
 
+	printf("\n\n--------- MULTIPLE FILES TESTS ---------\n");
 	read_multiple_files();
 
 	return (0);

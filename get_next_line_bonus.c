@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static void	trim_last_line(char *last_read)
 {
